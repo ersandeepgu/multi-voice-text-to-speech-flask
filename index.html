@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Text To Audio Generator</title>
+
+<style>
+body { font-family: Arial; background:#f4f6fb; padding:20px; }
+.container { max-width:1100px; margin:auto; background:#fff; padding:20px; }
+.row {
+    display:grid;
+    grid-template-columns:1fr 2fr 1fr 1fr 1fr 3fr;
+    gap:10px;
+    margin-bottom:10px;
+}
+select, textarea, button { padding:6px; }
+textarea { height:60px; width:100%; }
+button { background:#4a6cf7; color:#fff; border:none; cursor:pointer; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Text To Audio Generator (Multi-Voice)</h2>
+
+<form method="post" action="/generate" onsubmit="prepare()">
+
+<div id="rows">
+    <div class="row">
+        <!-- Role -->
+        <select class="role">
+            <option value="narrator">Narrator</option>
+        </select>
+
+        <!-- Voice -->
+        <select class="voice">
+            <!-- Hindi -->
+            <option value="hi-IN-MadhurNeural">Hindi Male – Madhur</option>
+            <option value="hi-IN-SwaraNeural">Hindi Female – Swara</option>
+
+            <!-- English India -->
+            <option value="en-IN-PrabhatNeural">English (IN) Male – Prabhat</option>
+            <option value="en-IN-NeerjaNeural">English (IN) Female – Neerja</option>
+
+            <!-- English US -->
+            <option value="en-US-GuyNeural">English (US) Male – Guy</option>
+            <option value="en-US-DavisNeural">English (US) Male – Davis</option>
+            <option value="en-US-JennyNeural">English (US) Female – Jenny</option>
+            <option value="en-US-AriaNeural">English (US) Female – Aria</option>
+
+            <!-- English UK -->
+            <option value="en-GB-RyanNeural">English (UK) Male – Ryan</option>
+            <option value="en-GB-LibbyNeural">English (UK) Female – Libby</option>
+        </select>
+
+        <!-- Rate -->
+        <select class="rate">
+            <option value="-10%">Slow</option>
+            <option value="+0%">Normal</option>
+            <option value="+10%">Fast</option>
+        </select>
+
+        <!-- Pitch -->
+        <select class="pitch">
+            <option value="-5Hz">Low</option>
+            <option value="+0Hz">Normal</option>
+            <option value="+5Hz">High</option>
+        </select>
+
+        <!-- Emotion -->
+        <select class="emotion">
+            <option value="neutral">Neutral</option>
+            <option value="sad">Sad / Crying</option>
+            <option value="cheerful">Cheerful</option>
+            <option value="angry">Angry / Shouting</option>
+            <option value="excited">Excited</option>
+        </select>
+
+        <!-- Text -->
+        <textarea class="text" placeholder="Enter Your text"></textarea>
+    </div>
+</div>
+
+<input type="hidden" name="entry" id="entries">
+
+<br>
+<button type="button" onclick="addRow()">➕ Add Line</button>
+<br><br>
+<button type="submit">🎧 Generate & Download MP3</button>
+
+</form>
+</div>
+
+<script>
+function addRow() {
+    const row = document.querySelector(".row").cloneNode(true);
+    row.querySelector("textarea").value = "";
+    document.getElementById("rows").appendChild(row);
+}
+
+function prepare() {
+    let data = [];
+    document.querySelectorAll(".row").forEach(row => {
+        data.push([
+            row.querySelector(".role").value,
+            row.querySelector(".voice").value,
+            row.querySelector(".rate").value,
+            row.querySelector(".pitch").value,
+            row.querySelector(".emotion").value,
+            row.querySelector(".text").value
+        ].join("::"));
+    });
+    document.getElementById("entries").value = data.join("||");
+}
+</script>
+
+</body>
+</html>
