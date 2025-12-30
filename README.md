@@ -45,3 +45,18 @@ This tool allows you to generate **high-quality MP3 audio** from text using **ma
 
 ```bash
 pip install flask edge-tts
+
+---
+
+## Install FFmpeg:
+Windows: https://ffmpeg.org/download.html
+
+Linux:
+sudo apt install ffmpeg
+
+▶️ Run the App
+python app.py
+
+Open in browser:
+
+http://127.0.0.1:5000
